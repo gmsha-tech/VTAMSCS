@@ -8,9 +8,4 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
 
-
-    <item
-        android:id="@+id/systemapps"
-        android:visible="true"
-        android:title="@string/systemapps"/>
 </menu>

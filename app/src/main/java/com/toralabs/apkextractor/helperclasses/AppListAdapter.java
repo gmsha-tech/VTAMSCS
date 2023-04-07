@@ -1,11 +1,12 @@
 package com.toralabs.apkextractor.helperclasses;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,13 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.ads.InterstitialAd;
 import com.toralabs.apkextractor.R;
+import com.toralabs.apkextractor.activities.MoboSFActivity;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewholder> {
@@ -36,6 +37,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
     private ItemClickListener itemClickListener;
     private Preferences preferences;
     private boolean isInAction = false;
+    public static Path apkPath ;
 
     public AppListAdapter(Context context, List<AppListModel> list, int color, View view, ItemClickListener itemClickListener) {
         this.context = context;
@@ -72,7 +74,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
     public void onBindViewHolder(@NonNull final Viewholder holder, final int position) {
         holder.img_icon.setImageDrawable(list.get(position).getIcon());
         holder.name.setText(list.get(position).getName());
-        holder.imgmore.setVisibility(View.VISIBLE);
         holder.multi_check.setVisibility(View.GONE);
         holder.packagename.setText(list.get(position).getPackageName());
         holder.size.setText(list.get(position).getSize());
@@ -83,7 +84,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
         }
         if (isInAction) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.multi_check.getLayoutParams();
-            holder.imgmore.setVisibility(View.GONE);
             holder.multi_check.setVisibility(View.VISIBLE);
             params.addRule(RelativeLayout.LEFT_OF, R.id.item_linear);
             params.addRule(RelativeLayout.LEFT_OF, R.id.appname);
@@ -97,7 +97,7 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
     }
 
     public class Viewholder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        ImageView img_icon, imgmore;
+        ImageView img_icon;
         TextView name, packagename, size;
         RelativeLayout rel_main;
         CheckBox multi_check;
@@ -109,7 +109,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
             this.mItemClickListener = itemClickListener;
             rel_main = itemView.findViewById(R.id.rel_main);
             img_icon = itemView.findViewById(R.id.appicon);
-            imgmore = itemView.findViewById(R.id.imgmore);
             multi_check = itemView.findViewById(R.id.check_multi);
             name = itemView.findViewById(R.id.appname);
             packagename = itemView.findViewById(R.id.pkgname);
@@ -118,7 +117,6 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
             rel_main.setOnClickListener(this);
             rel_main.setOnLongClickListener(this);
             multi_check.setOnClickListener(this);
-            imgmore.setOnClickListener(this);
         }
 
         @Override
@@ -150,6 +148,9 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
             dir.mkdir();
         }
         File newFile = new File((Environment.getExternalStorageDirectory().getAbsolutePath() + "/Vulnerabilities Testing App/"), name + ".apk");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            apkPath = newFile.toPath();
+        }
         ExtractThread extractThread = new ExtractThread(context, file, newFile, newFile.getPath(), color, view);
         extractThread.start();
     }
@@ -199,11 +200,14 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
                     dialog.dismiss();
                 }
             });
-            dialog.setButton(-1, context.getResources().getString(R.string.extract), new DialogInterface.OnClickListener() {
+            dialog.setButton(-1, context.getResources().getString(R.string.save), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     extract(position, newFileName(list.get(position).getName(), list.get(position).getVersion(), list.get(position).getVername(), list.get(position).getPackageName()));
                     dialog.dismiss();
+
+                    Intent mobosfActivity = new Intent(context, MoboSFActivity.class);
+                    context.startActivity(mobosfActivity);
                 }
             });
             dialog.show();

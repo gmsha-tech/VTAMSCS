@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    tools:context=".activities.ChoiceActivity">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/about"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="end|bottom"
+        app:cornerRadius="150dp"
+        android:layout_margin="10dp"
+        android:text="@string/about"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome,"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_margin="30dp"
+        android:textSize="40sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/testingMobosf"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:cornerRadius="20dp"
+        android:onClick="mobosfButtonClicked"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        android:text="@string/vulnerabilites_testing_trough_mobo_sf"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/testingBevigil"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="10dp"
+        app:cornerRadius="20dp"
+        android:onClick="bevigilClickedButton"
+        android:layout_weight="1"
+        android:text="@string/vulnerabilities_testing_through_bevigil"/>
+
+    </LinearLayout>
+
+</LinearLayout>

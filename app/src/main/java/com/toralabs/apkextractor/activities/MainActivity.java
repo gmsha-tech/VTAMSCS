@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -19,7 +17,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements AppListAdapter.It
     ActionMode mode;
     long longsize;
     CustomSnackBar customSnackBar;
-    String color, fileName, URL_STORE = "https://play.google.com/store/apps/details?id=com.toralabs.apkextractor";
+    String color, fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,116 +114,36 @@ public class MainActivity extends AppCompatActivity implements AppListAdapter.It
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         searchView = (androidx.appcompat.widget.SearchView) menu.findItem(R.id.search).getActionView();
-        if (!sys)
-            menu.findItem(R.id.systemapps).setTitle(getResources().getString(R.string.installed));
-        else
-            menu.findItem(R.id.systemapps).setTitle(getResources().getString(R.string.systemapps));
 
         menu.findItem(R.id.search).setOnActionExpandListener(this);
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        if (!sys)
-            menu.findItem(R.id.systemapps).setTitle(getResources().getString(R.string.installed));
-        else
-            menu.findItem(R.id.systemapps).setTitle(getResources().getString(R.string.systemapps));
-        return true;
-    }
 
-    public void showPopupMenu(View view, final int position, final List<AppListModel> updatedList) {
-        final PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
-        popupMenu.inflate(R.menu.threedot_menu);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                fileName = appListAdapter.newFileName(updatedList.get(position).getName(), updatedList.get(position).getVersion(), updatedList.get(position).getVername(), updatedList.get(position).getPackageName());
-                switch (item.getItemId()) {
-                    case R.id.shareapk:
-                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                            shareApk(position, fileName);
-                        } else {
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
-        popupMenu.show();
-    }
 
     public void shareApk(int position, String name) {
         appListAdapter.extract(position, name);
     }
 
-    public void saveIcons(int position, List<AppListModel> updatedList) {
-        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Apk Extractor/");
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
-        File iconDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Apk Extractor/", "/App Icons/");
-        if (!iconDir.exists()) {
-            iconDir.mkdir();
-        }
-        File newFile = new File((Environment.getExternalStorageDirectory().getAbsolutePath() + "/Apk Extractor/App Icons/"), updatedList.get(position).getName() + ".png");
-        Bitmap bitmap = null;
-        if (updatedList.get(position).getIcon() instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) updatedList.get(position).getIcon();
-            bitmap = bitmapDrawable.getBitmap();
-        } else {
-            Drawable drawable = updatedList.get(position).getIcon();
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                final Canvas canvas = new Canvas(bitmap);
-                drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-                drawable.draw(canvas);
-            }
-        }
-        try {
-            OutputStream outputStream = new FileOutputStream(newFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-            outputStream.flush();
-            outputStream.close();
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.savedicon) + " " + updatedList.get(position).getName() + " ✔", Toast.LENGTH_SHORT).show();
-        } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.unablesavedicon) + " " + updatedList.get(position).getName() + " ✘", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.unablesavedicon) + " " + updatedList.get(position).getName() + " ✘", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
+        if (item.getItemId() == R.id.search) {
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
 
-
-            case R.id.systemapps:
-                if (sys)
-                    sortSystemApps();
-                else
-                    installedApps();
-            case R.id.search:
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    if (!newText.isEmpty()) {
+                        filter(newText);
                     }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        if (!newText.isEmpty()) {
-                            filter(newText);
-                        }
-                        return true;
-                    }
-                });
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+                    return true;
+                }
+            });
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         return true;
     }
@@ -250,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements AppListAdapter.It
                 toastDisplay = false;
             }
         }
+
     }
 
     public void sortSystemApps() {
@@ -296,15 +214,12 @@ public class MainActivity extends AppCompatActivity implements AppListAdapter.It
         this.position = position;
         this.updatedlist = updatedList;
         if (!isInActionMode) {
-            if (view.getId() == R.id.imgmore) {
-                showPopupMenu(view, position, updatedList);
-            } else {
+
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     appListAdapter.onClickItem(position);
                 } else {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
                 }
-            }
         } else {
             if (updatedList.get(position).isSelected()) {
                 updatedList.get(position).setSelected(false);
@@ -374,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements AppListAdapter.It
                 break;
             case R.id.selectall:
                 if (!selectAll) {
-                    allApps();
+                    installedApps();
                     appListAdapter.notifyDataSetChanged();
                     this.updatedlist = list;
                     pos.clear();
@@ -441,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements AppListAdapter.It
 
     @Override
     public boolean onMenuItemActionCollapse(MenuItem item) {
-        allApps();
+        installedApps();
         return true;
     }
 
@@ -502,8 +417,16 @@ public class MainActivity extends AppCompatActivity implements AppListAdapter.It
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
                                 LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
                                 appListAdapter = new AppListAdapter(MainActivity.this, list, Color.parseColor(preferences.getCircleColor()), recycler_apps, MainActivity.this);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        installedApps();
+                                        appListAdapter.notifyDataSetChanged();
+                                    }
+                                }, 2000);
                                 appListAdapter.notifyDataSetChanged();
                                 recycler_apps.setAdapter(appListAdapter);
                                 recycler_apps.setLayoutManager(layoutManager);

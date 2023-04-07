@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="5dp"
-                android:layout_toLeftOf="@id/imgmore"
+
                 android:layout_toRightOf="@id/appicon"
                 android:maxLines="1"
                 android:textColor="@color/textgrey"
@@ -73,13 +73,6 @@
                     android:visibility="visible" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imgmore"
-                android:layout_width="32dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/more_ic" />
 
             <CheckBox
                 android:id="@+id/check_multi"

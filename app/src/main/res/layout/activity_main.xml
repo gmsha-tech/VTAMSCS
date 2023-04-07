@@ -41,16 +41,6 @@
         android:layout_margin="8dp"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/txt_copyright"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:text="@string/copyright"
-        android:textSize="16sp"
-        android:textStyle="bold" />
 
     <RelativeLayout
         android:id="@+id/ad_banner"
