@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/mainLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,22 +10,17 @@
 
     tools:context=".activities.ChoiceActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/about"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_gravity="end|bottom"
-        app:cornerRadius="150dp"
-        android:layout_margin="10dp"
-        android:text="@string/about"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome,"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:layout_margin="30dp"
-        android:textSize="40sp"/>
+  <com.google.android.material.navigation.NavigationView
+      android:id="@+id/nav_view"
+      android:layout_gravity="start"
+      android:layout_height="match_parent"
+      android:layout_width="match_parent"
+      app:menu="@menu/nav_menu" />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,26 +29,32 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/testingMobosf"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:cornerRadius="20dp"
-        android:onClick="mobosfButtonClicked"
-        android:layout_weight="1"
-        android:layout_margin="10dp"
-        android:text="@string/vulnerabilites_testing_trough_mobo_sf"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/testingBevigil"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="10dp"
-        app:cornerRadius="20dp"
-        android:onClick="bevigilClickedButton"
-        android:layout_weight="1"
-        android:text="@string/vulnerabilities_testing_through_bevigil"/>
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/choose1"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:layout_margin="10dp"
+          android:text="@string/choose_app_from_installed_apps"/>
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/choose2"
+          android:layout_width="0dp"
+          android:layout_height="match_parent"
+          android:layout_weight="1"
+          android:layout_margin="10dp"
+          android:text="@string/choose_app_from_files"/>
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/recentScansTextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recent_scans"/>
 
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recentScans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      android:layout_margin="5dp"/>
+  </LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

@@ -3,8 +3,13 @@ package com.toralabs.apkextractor.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.KeyEvent;
@@ -21,13 +26,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.toralabs.apkextractor.Constants;
 import com.toralabs.apkextractor.R;
 
 public class BevigilActivity extends AppCompatActivity {
     ImageView clearUrl;
     WebView webView;
     ProgressBar progressBar;
-    ImageView webBack,webForward,webRefresh,webShare;
+    ImageView webBack,webForward,webRefresh,webShare, about;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class BevigilActivity extends AppCompatActivity {
         webForward = findViewById(R.id.web_forward);
         webRefresh = findViewById(R.id.web_refresh);
         webShare = findViewById(R.id.web_share);
+        about = findViewById(R.id.aboutAct);
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -48,6 +55,7 @@ public class BevigilActivity extends AppCompatActivity {
         webSettings.setDisplayZoomControls(false);
         webSettings.setAppCacheEnabled(true);
         webSettings.setDomStorageEnabled(true);
+        showDialog(this);
 
         webView.setWebViewClient(new MyWebViewClient());
         webView.setWebChromeClient(new WebChromeClient(){
@@ -58,7 +66,7 @@ public class BevigilActivity extends AppCompatActivity {
             }
         });
 
-        loadMyUrl("bevigil.com");
+        webView.loadUrl(Constants.HOST_IP);
 
         webBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +74,13 @@ public class BevigilActivity extends AppCompatActivity {
                 if(webView.canGoBack()){
                     webView.goBack();
                 }
+            }
+        });
+
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog(BevigilActivity.this);
             }
         });
 
@@ -136,6 +151,35 @@ public class BevigilActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             progressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    void showDialog(Context context)
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle("Bevigil Activity Info");
+
+        builder.setMessage("This is preview of Bevigil tool, to access full you can visit by clicking below")
+                .setCancelable(false)
+                .setPositiveButton("Click Here!", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String url = "https://www.bevigil.com";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        if(getApplicationContext() != null){
+            alertDialog.show();
         }
     }
 

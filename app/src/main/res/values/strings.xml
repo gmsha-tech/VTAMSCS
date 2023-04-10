@@ -73,4 +73,8 @@
     <string name="save">Save</string>
     <string name="choose_app_from_installed_apps">Choose App from Installed Apps</string>
     <string name="choose_app_from_files">Choose App from Files</string>
+    <string name="bevigil">Bevigil</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="recent_scans">Recent Scans</string>
 </resources>

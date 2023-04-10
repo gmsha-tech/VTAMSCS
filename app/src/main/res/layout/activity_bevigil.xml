@@ -75,6 +75,14 @@
             android:layout_weight="1"
             android:padding="10dp"
             android:id="@+id/web_share" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/info"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:id="@+id/aboutAct" />
 
     </LinearLayout>
 

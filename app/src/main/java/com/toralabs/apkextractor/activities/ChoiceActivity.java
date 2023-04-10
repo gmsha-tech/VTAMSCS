@@ -1,33 +1,82 @@
 package com.toralabs.apkextractor.activities;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.navigation.NavigationView;
+import com.toralabs.apkextractor.AboutActivity;
+import com.toralabs.apkextractor.Constants;
 import com.toralabs.apkextractor.R;
 
-public class ChoiceActivity extends AppCompatActivity {
+import org.json.JSONArray;
 
+public class ChoiceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    DrawerLayout layout;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
 
+        layout =findViewById(R.id.mainLayout);
+        navigationView =findViewById(R.id.nav_view);
 
+        AndroidNetworking.initialize(getApplicationContext());
+
+        AndroidNetworking.get(Constants.HOST_IP + Constants.SCAN)
+                .addHeaders("Authorization", "1a8af0d733b59557f1d9fe1bfe978153912d440c7e900801c014c10101b20b27")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // do anything with response
+                        TextView view = findViewById(R.id.recentScansTextview);
+                       view.setText(response.toString());
+                    }
+                    @Override
+                    public void onError(ANError error) {
+                        // handle error
+                    }
+                });
+        // Navigation Drawer Bar
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle=new
+                ActionBarDrawerToggle(this,layout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        layout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     public void mobosfButtonClicked(View view) {
 
         final BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(R.layout.mobosfchoise);
+
+
+
 
         Button choose1 = dialog.findViewById(R.id.choose1);
         Button choose2 = dialog.findViewById(R.id.choose2);
@@ -93,4 +142,31 @@ public class ChoiceActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public void onBackPressed(){
+        if(layout.isDrawerOpen(GravityCompat.START)){
+            layout.closeDrawer(GravityCompat.START);
+        }
+        else
+        {super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.bevigil:
+
+                startActivity(new Intent(getApplicationContext(), BevigilActivity.class));
+                break;
+            case R.id.about:
+                Intent intent = new Intent(ChoiceActivity.this, AboutActivity.class);
+                startActivity(intent);
+                break;
+
+        }
+        layout.closeDrawer(GravityCompat.START); return true;
+    }
+
 }

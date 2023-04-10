@@ -35,4 +35,5 @@ dependencies {
     implementation 'com.android.billingclient:billing:3.0.1'
     implementation 'com.facebook.android:audience-network-sdk:6.0.0'
     implementation 'petrov.kristiyan:colorpicker-library:1.1.10'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
 }
