@@ -22,49 +22,90 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.toralabs.apkextractor.AboutActivity;
 import com.toralabs.apkextractor.Constants;
 import com.toralabs.apkextractor.R;
+import com.toralabs.apkextractor.helperclasses.RecentAppsHelper;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
 
-public class ChoiceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.ArrayList;
+
+public class ChoiceActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout layout;
     NavigationView navigationView;
+
+    ArrayList<RecentAppsHelper> mRecentAppsArray = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice);
 
-        layout =findViewById(R.id.mainLayout);
-        navigationView =findViewById(R.id.nav_view);
+        layout = findViewById(R.id.mainLayout);
+        navigationView = findViewById(R.id.nav_view);
 
         AndroidNetworking.initialize(getApplicationContext());
 
         AndroidNetworking.get(Constants.HOST_IP + Constants.SCAN)
-                .addHeaders("Authorization", "1a8af0d733b59557f1d9fe1bfe978153912d440c7e900801c014c10101b20b27")
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONArray(new JSONArrayRequestListener() {
+                .addHeaders("Authorization", Constants.MOBSF_AUTHORIZATION)
+                .setPriority(Priority.HIGH)
+                .build().getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        // do anything with response
-                        TextView view = findViewById(R.id.recentScansTextview);
-                       view.setText(response.toString());
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            JSONArray array = response.getJSONArray("content");
+
+
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject explrObject = array.getJSONObject(i);
+
+                                // Generate App Url
+                                String appUrl = Constants.HOST_IP +  "/" +
+                                        explrObject.getString("ANALYZER") + "/?name="
+                                        + explrObject.getString("FILE_NAME") + "&checksum="
+                                        + explrObject.getString("MD5") + "&type=" + explrObject.getString("SCAN_TYPE");
+
+                                // Generate PDF URL
+                                String pdfUrl = Constants.HOST_IP +"/pdf/?md5=" + explrObject.getString("MD5");
+                                mRecentAppsArray.add(new RecentAppsHelper(
+                                        explrObject.getString("FILE_NAME"),
+                                        explrObject.getString("APP_NAME"),
+                                        appUrl,
+                                        explrObject.getString("PACKAGE_NAME"),
+                                        explrObject.getString("VERSION_NAME"),
+                                        explrObject.getString("TIMESTAMP"),
+                                        pdfUrl
+                                ));
+                                Log.e("LIST", "onCreate: "+ mRecentAppsArray.get(i).getPdfUrl());
+                            }
+
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
+
                     @Override
-                    public void onError(ANError error) {
-                        // handle error
+                    public void onError(ANError anError) {
+                        Log.e("API", "onError: " + anError.getErrorBody());
                     }
                 });
+
         // Navigation Drawer Bar
 
+
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle=new
-                ActionBarDrawerToggle(this,layout,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new
+                ActionBarDrawerToggle(this, layout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         layout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
@@ -74,8 +115,6 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
 
         final BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(R.layout.mobosfchoise);
-
-
 
 
         Button choose1 = dialog.findViewById(R.id.choose1);
@@ -133,7 +172,7 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
                 String fileExtension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
                 if ("apk".equalsIgnoreCase(fileExtension)) {
                     // Proceed with further processing for .apk file
-                Toast.makeText(this, uri.getPath(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, uri.getPath(), Toast.LENGTH_SHORT).show();
                 } else {
                     // Show error message or take appropriate action for invalid file type
                     Toast.makeText(this, "Not APK", Toast.LENGTH_SHORT).show();
@@ -144,12 +183,11 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
     }
 
     @Override
-    public void onBackPressed(){
-        if(layout.isDrawerOpen(GravityCompat.START)){
+    public void onBackPressed() {
+        if (layout.isDrawerOpen(GravityCompat.START)) {
             layout.closeDrawer(GravityCompat.START);
-        }
-        else
-        {super.onBackPressed();
+        } else {
+            super.onBackPressed();
         }
     }
 
@@ -166,7 +204,8 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
                 break;
 
         }
-        layout.closeDrawer(GravityCompat.START); return true;
+        layout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 }

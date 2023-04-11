@@ -66,7 +66,7 @@ public class BevigilActivity extends AppCompatActivity {
             }
         });
 
-        webView.loadUrl(Constants.HOST_IP);
+        webView.loadUrl(Constants.BEVIGIL_WEBSITE);
 
         webBack.setOnClickListener(new View.OnClickListener() {
             @Override
