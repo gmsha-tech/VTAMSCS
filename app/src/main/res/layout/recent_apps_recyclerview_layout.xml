@@ -53,7 +53,16 @@
                     android:layout_height="wrap_content"
                     android:text="TimeStamp"/>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/downloadPdfReportBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cornerRadius="15dp"
+                    android:layout_gravity="center"
+                    android:text="@string/download_pdf_report"/>
             </LinearLayout>
+
 
 
         </LinearLayout>

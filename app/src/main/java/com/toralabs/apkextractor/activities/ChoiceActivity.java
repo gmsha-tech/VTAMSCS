@@ -5,11 +5,15 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +32,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.toralabs.apkextractor.AboutActivity;
 import com.toralabs.apkextractor.Constants;
 import com.toralabs.apkextractor.R;
+import com.toralabs.apkextractor.helperclasses.RecentAppsAdapter;
 import com.toralabs.apkextractor.helperclasses.RecentAppsHelper;
 
 import org.json.JSONArray;
@@ -44,6 +49,10 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
 
     ArrayList<RecentAppsHelper> mRecentAppsArray = new ArrayList<>();
 
+    RecyclerView mRecentAppsRecyclerview;
+    RecentAppsAdapter adapter;
+
+    public static Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +60,11 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
 
         layout = findViewById(R.id.mainLayout);
         navigationView = findViewById(R.id.nav_view);
+        mRecentAppsRecyclerview = findViewById(R.id.recentScans);
 
-        AndroidNetworking.initialize(getApplicationContext());
+        if(mContext==null)
+            mContext = ChoiceActivity.this;
+        AndroidNetworking.initialize(mContext);
 
         AndroidNetworking.get(Constants.HOST_IP + Constants.SCAN)
                 .addHeaders("Authorization", Constants.MOBSF_AUTHORIZATION)
@@ -61,6 +73,7 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
                     @Override
                     public void onResponse(JSONObject response) {
 
+                        Log.e("API", "onResponse: "+response.toString() );
                         try {
                             JSONArray array = response.getJSONArray("content");
 
@@ -102,6 +115,21 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
 
         // Navigation Drawer Bar
 
+      new Handler().postDelayed(new Runnable() {
+          @Override
+          public void run() {
+              runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                      LinearLayoutManager manager =new LinearLayoutManager(ChoiceActivity.this, RecyclerView.VERTICAL, false);
+                      adapter = new RecentAppsAdapter(mRecentAppsArray, ChoiceActivity.this);
+                      mRecentAppsRecyclerview.setLayoutManager(manager);
+                      mRecentAppsRecyclerview.setAdapter(adapter);
+                      adapter.notifyDataSetChanged();
+                  }
+              });
+          }
+      }, 2000);
 
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new
@@ -111,37 +139,7 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    public void mobosfButtonClicked(View view) {
 
-        final BottomSheetDialog dialog = new BottomSheetDialog(this);
-        dialog.setContentView(R.layout.mobosfchoise);
-
-
-        Button choose1 = dialog.findViewById(R.id.choose1);
-        Button choose2 = dialog.findViewById(R.id.choose2);
-
-        choose1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                dialog.dismiss();
-            }
-        });
-
-        choose2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getApk();
-                dialog.dismiss();
-            }
-        });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            dialog.create();
-        }
-        dialog.show();
-
-    }
 
     public void bevigilClickedButton(View view) {
 
@@ -208,4 +206,11 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
+    public void choose1(View view) {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+    }
+
+    public void choose2(View view) {
+        getApk();
+    }
 }
