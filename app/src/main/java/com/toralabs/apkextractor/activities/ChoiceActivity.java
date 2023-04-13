@@ -96,7 +96,9 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
                                         explrObject.getString("PACKAGE_NAME"),
                                         explrObject.getString("VERSION_NAME"),
                                         explrObject.getString("TIMESTAMP"),
-                                        pdfUrl
+                                        pdfUrl,
+                                        explrObject.getString("MD5")
+
                                 ));
                                 Log.e("LIST", "onCreate: "+ mRecentAppsArray.get(i).getPdfUrl());
                             }
@@ -122,7 +124,7 @@ public class ChoiceActivity extends AppCompatActivity implements NavigationView.
                   @Override
                   public void run() {
                       LinearLayoutManager manager =new LinearLayoutManager(ChoiceActivity.this, RecyclerView.VERTICAL, false);
-                      adapter = new RecentAppsAdapter(mRecentAppsArray, ChoiceActivity.this);
+                      adapter = new RecentAppsAdapter(mRecentAppsArray, ChoiceActivity.this,ChoiceActivity.this);
                       mRecentAppsRecyclerview.setLayoutManager(manager);
                       mRecentAppsRecyclerview.setAdapter(adapter);
                       adapter.notifyDataSetChanged();

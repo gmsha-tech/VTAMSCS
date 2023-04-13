@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.ads.AudienceNetworkAds;
+import com.toralabs.apkextractor.Constants;
 import com.toralabs.apkextractor.R;
 import com.toralabs.apkextractor.helperclasses.AppListAdapter;
 import com.toralabs.apkextractor.helperclasses.AppListModel;
@@ -444,13 +445,13 @@ public class MainActivity extends AppCompatActivity implements AppListAdapter.It
 
     public void extractFunc(final List<NameSaveModel> fList) {
 
-        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Apk Extractor/");
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + Constants.DOWNLOAD_PATH_APP);
         if (!dir.exists()) {
             dir.mkdir();
         }
         for (int i = 0; i < fList.size(); i++) {
             String saveName = appListAdapter.newFileName(fList.get(i).getName(), fList.get(i).getVerCode(), fList.get(i).getVerName(), fList.get(i).getPackageName());
-            newFilesList.add(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Apk Extractor/", saveName + ".apk"));
+            newFilesList.add(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + Constants.DOWNLOAD_PATH_APP, saveName + ".apk"));
         }
         final ExtractDialog extractDialog = new ExtractDialog(MainActivity.this, Color.parseColor(color));
         extractDialog.showDialog(true);

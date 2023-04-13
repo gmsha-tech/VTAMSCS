@@ -1,9 +1,9 @@
 package com.toralabs.apkextractor.helperclasses;
 
 public class RecentAppsHelper {
-    String fileName, ApkName, url, packageName, versionName, TimeStamp, pdfUrl;
+    String fileName, ApkName, url, packageName, versionName, TimeStamp, pdfUrl, md5;
 
-    public RecentAppsHelper(String fileName, String apkName, String url, String packageName, String versionName, String timeStamp, String pdfUrl) {
+    public RecentAppsHelper(String fileName, String apkName, String url, String packageName, String versionName, String timeStamp, String pdfUrl, String md5) {
         this.fileName = fileName;
         ApkName = apkName;
         this.url = url;
@@ -11,6 +11,7 @@ public class RecentAppsHelper {
         this.versionName = versionName;
         TimeStamp = timeStamp;
         this.pdfUrl = pdfUrl;
+        this.md5 = md5;
     }
 
     public String getFileName() {
@@ -67,5 +68,13 @@ public class RecentAppsHelper {
 
     public void setPdfUrl(String pdfUrl) {
         this.pdfUrl = pdfUrl;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
     }
 }

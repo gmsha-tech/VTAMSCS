@@ -22,6 +22,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.toralabs.apkextractor.Constants;
 import com.toralabs.apkextractor.R;
 import com.toralabs.apkextractor.activities.MoboSFActivity;
 
@@ -143,11 +144,11 @@ public class AppListAdapter extends RecyclerView.Adapter<AppListAdapter.Viewhold
     public void extract(int position, String name) {
         File file = new File(String.valueOf(list.get(position).getFile()));
 
-        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Vulnerabilities Testing App/");
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + Constants.DOWNLOAD_PATH_APP);
         if (!dir.exists()) {
             dir.mkdir();
         }
-        File newFile = new File((Environment.getExternalStorageDirectory().getAbsolutePath() + "/Vulnerabilities Testing App/"), name + ".apk");
+        File newFile = new File((Environment.getExternalStorageDirectory().getAbsolutePath() + Constants.DOWNLOAD_PATH_APP), name + ".apk");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             apkPath = newFile.toPath();
         }

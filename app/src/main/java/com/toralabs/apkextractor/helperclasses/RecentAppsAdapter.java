@@ -1,15 +1,19 @@
 package com.toralabs.apkextractor.helperclasses;
 
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.AndroidNetworking;
@@ -34,6 +39,7 @@ import com.google.android.material.button.MaterialButton;
 import com.toralabs.apkextractor.Constants;
 import com.toralabs.apkextractor.R;
 import com.toralabs.apkextractor.activities.ChoiceActivity;
+import com.toralabs.apkextractor.activities.MainActivity;
 
 import org.json.JSONObject;
 
@@ -48,10 +54,15 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 public class RecentAppsAdapter extends RecyclerView.Adapter<RecentAppsAdapter.ViewHolder> {
 
     ArrayList<RecentAppsHelper> list = new ArrayList<>();
     Context context;
+
+    Activity activity;
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder)
@@ -80,9 +91,10 @@ public class RecentAppsAdapter extends RecyclerView.Adapter<RecentAppsAdapter.Vi
 
     }
 
-    public RecentAppsAdapter(ArrayList<RecentAppsHelper> list, Context mContext) {
+    public RecentAppsAdapter(ArrayList<RecentAppsHelper> list, Context mContext, Activity activity) {
         this.context = mContext;
         this.list = list;
+        this.activity = activity;
 
     }
 
@@ -109,7 +121,7 @@ public class RecentAppsAdapter extends RecyclerView.Adapter<RecentAppsAdapter.Vi
         viewHolder.apkPackageName.setText("Apk Package Name: " + list.get(position).getPackageName());
 
 
-        final File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Vulnerabilities Testing App/");
+        final File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + Constants.DOWNLOAD_PATH_PDF);
         if (!dir.exists()) {
             dir.mkdir();
         }
@@ -121,166 +133,28 @@ public class RecentAppsAdapter extends RecyclerView.Adapter<RecentAppsAdapter.Vi
 
             @Override
             public void onClick(View view) {
-//                progressDialog = new ProgressDialog(context);
-//                progressDialog.setTitle("Downloading...");
-//                progressDialog.setCancelable(false);
-//                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-//                progressDialog.show();
+
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        downloadAndOpenPDF(list.get(position).getPdfUrl());
+                        // downloading Pdf File
+                        new DownloadFile().execute(list.get(position).getPdfUrl(), list.get(position).getPackageName() + ".pdf", dir.toString());
                     }
                 });
-
-//                AndroidNetworking.download(list.get(position).pdfUrl, String.valueOf(dir),list.get(position).packageName +".pdf")
-//                        .setPriority(Priority.MEDIUM)
-//                        .build()
-//                        .setDownloadProgressListener(new DownloadProgressListener() {
-//                            @Override
-//                            public void onProgress(long bytesDownloaded, long totalBytes) {
-//                                Log.e("download", "onProgress: "+bytes2String(bytesDownloaded) );
-//                                progressDialog.setProgressNumberFormat((bytes2String(totalBytes)) + "/" + (bytes2String(bytesDownloaded)));
-//                            }
-//                        })
-//                        .startDownload(new DownloadListener() {
-//                            @Override
-//                            public void onDownloadComplete() {
-//                                // do anything after completion
-//                                progressDialog.dismiss();
-//                                Toast.makeText(context, "Download Completed", Toast.LENGTH_SHORT).show();
-//
-//                                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Vulnerabilities Testing App/",
-//                                        list.get(position).packageName +".pdf");
-//                                Uri path = Uri.fromFile(file);
-//                                Intent pdfOpenintent = new Intent(Intent.ACTION_VIEW);
-//                                pdfOpenintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                pdfOpenintent.setDataAndType(path, "application/pdf");
-//                                try {
-//                                    context.startActivity(pdfOpenintent);
-//                                }
-//                                catch (ActivityNotFoundException e) {
-//                                    e.printStackTrace();
-//                                }
-//
-//                            }
-//                            @Override
-//                            public void onError(ANError error) {
-//                                // handle error
-//                                progressDialog.dismiss();
-//                                Toast.makeText(context, "download failed: " + error.getErrorDetail(), Toast.LENGTH_SHORT).show();
-//                                Log.e("download", "onError: "+error.getErrorBody() );
-//                            }
-//                        });
             }
         });
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return list.size();
     }
 
-    private static double SPACE_KB = 1024;
-    private static double SPACE_MB = 1024 * SPACE_KB;
-    private static double SPACE_GB = 1024 * SPACE_MB;
-    private static double SPACE_TB = 1024 * SPACE_GB;
-
-    public static String bytes2String(long sizeInBytes) {
-
-        NumberFormat nf = new DecimalFormat();
-        nf.setMaximumFractionDigits(2);
-
-        try {
-            if (sizeInBytes < SPACE_KB) {
-                return nf.format(sizeInBytes) + " Byte(s)";
-            } else if (sizeInBytes < SPACE_MB) {
-                return nf.format(sizeInBytes / SPACE_KB) + " KB";
-            } else if (sizeInBytes < SPACE_GB) {
-                return nf.format(sizeInBytes / SPACE_MB) + " MB";
-            } else if (sizeInBytes < SPACE_TB) {
-                return nf.format(sizeInBytes / SPACE_GB) + " GB";
-            } else {
-                return nf.format(sizeInBytes / SPACE_TB) + " TB";
-            }
-        } catch (Exception e) {
-            return sizeInBytes + " Byte(s)";
-        }
-
-    }
-
-    File downloadFile(String dwnload_file_path) {
-        File file = dest_file_path;
-        try {
-
-            URL url = new URL(dwnload_file_path);
-            HttpURLConnection urlConnection = (HttpURLConnection) url
-                    .openConnection();
-
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setDoOutput(true);
-
-            // connect
-            urlConnection.connect();
-
-
-            FileOutputStream fileOutput = new FileOutputStream(file);
-
-            // Stream used for reading the data from the internet
-            InputStream inputStream = urlConnection.getInputStream();
-
-            // this is the total size of the file which we are
-            // downloading
-            totalsize = urlConnection.getContentLength();
-            setText("Starting PDF download...");
-
-            // create a buffer...
-            byte[] buffer = new byte[1024 * 1024];
-            int bufferLength = 0;
-
-            while ((bufferLength = inputStream.read(buffer)) > 0) {
-                fileOutput.write(buffer, 0, bufferLength);
-                downloadedSize += bufferLength;
-                per = ((float) downloadedSize / totalsize) * 100;
-                setText("Total PDF File size  : "
-                        + (totalsize / 1024)
-                        + " KB\n\nDownloading PDF " + (int) per
-                        + "% complete");
-            }
-            // close the output stream when complete //
-            fileOutput.close();
-            setText("Download Complete. Open PDF Application installed in the device.");
-
-        } catch (final MalformedURLException e) {
-            setTextError("Some error occured. Press back and try again. MALFORM",
-                    Color.RED);
-        } catch (final IOException e) {
-            setTextError("Some error occured. Press back and try again. IO",
-                    Color.RED);
-        } catch (final Exception e) {
-            setTextError(
-                    "Failed to download image. Please check your internet connection.",
-                    Color.RED);
-        }
-        return file;
-    }
-
-    void setTextError(final String message, final int color) {
-
-        Log.e("downloaderror", "Error: "+message );
-    }
-
-    void setText(final String txt) {
-        Log.e("download", "progress: "+txt );
-
-    }
-    void downloadAndOpenPDF(final String download_file_url) {
+    void openPdf(final Uri path) {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         new Thread(new Runnable() {
             public void run() {
-                Uri path = Uri.fromFile(downloadFile(download_file_url));
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(path, "application/pdf");
@@ -288,10 +162,37 @@ public class RecentAppsAdapter extends RecyclerView.Adapter<RecentAppsAdapter.Vi
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     context.startActivity(intent);
                 } catch (ActivityNotFoundException e) {
-                    Log.e("download", "run: PDF Reader application is not installed in your device" );
+                    Log.e("download", "run: PDF Reader application is not installed in your device");
                 }
             }
         }).start();
 
     }
+
+    private class DownloadFile extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
+            String fileName = strings[1];  // -> maven.pdf
+            File file = new File(strings[2]);
+
+            File pdfFile = new File(file, fileName);
+
+            try {
+                if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    pdfFile.createNewFile();
+                    openPdf(Uri.fromFile(pdfFile));
+                } else {
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            FileDownloader.downloadFile(fileUrl, pdfFile);
+            return null;
+        }
+    }
+
 }
