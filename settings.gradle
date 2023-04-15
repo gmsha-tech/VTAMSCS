@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Apk Extractor"
+rootProject.name = "Vulnerabilities Testing App"
