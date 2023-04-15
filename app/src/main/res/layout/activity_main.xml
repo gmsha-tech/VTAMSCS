@@ -6,6 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:padding="10dp">
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:onClick="searchClicked" />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
     <TextView
         android:id="@+id/txt_loading"
         android:layout_width="wrap_content"
@@ -36,17 +56,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_apps"
         android:layout_width="match_parent"
+        android:layout_below="@id/toolbarLayout"
         android:layout_height="match_parent"
-        android:layout_above="@id/ad_banner"
         android:layout_margin="8dp"
         android:visibility="gone" />
 
 
-    <RelativeLayout
-        android:id="@+id/ad_banner"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:visibility="gone" />
 
 </RelativeLayout>

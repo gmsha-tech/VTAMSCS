@@ -1,62 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
-    android:id="@+id/mainLayout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
 
     tools:context=".activities.ChoiceActivity">
 
-  <com.google.android.material.navigation.NavigationView
-      android:id="@+id/nav_view"
-      android:layout_gravity="start"
-      android:layout_height="match_parent"
-      android:layout_width="match_parent"
-      app:menu="@menu/nav_menu" />
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical">
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/nav_menu" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-      <com.google.android.material.button.MaterialButton
-          android:id="@+id/choose1"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="1"
-          android:onClick="choose1"
-          android:layout_margin="10dp"
-          android:text="@string/choose_app_from_installed_apps"/>
-      <com.google.android.material.button.MaterialButton
-          android:id="@+id/choose2"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="1"
-          android:onClick="choose2"
-          android:layout_margin="10dp"
-          android:text="@string/choose_app_from_files"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorAccent"
+            android:padding="10dp">
 
+            <ImageView
+                android:id="@+id/nav_icon_button"
+                android:layout_width="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_height="40dp"
+                android:onClick="navbtnClicked"
+                app:tint="@color/white"
+                android:src="@drawable/menu"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="19sp"
+                android:layout_centerInParent="true"/>
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/choose1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:onClick="choose1"
+                android:text="@string/choose_app_from_installed_apps" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/choose2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:onClick="choose2"
+                android:text="@string/choose_app_from_files" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/recentScansTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/recent_scans" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recentScans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/recentScansTextview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/recent_scans"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recentScans"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-      android:layout_margin="5dp"/>
-  </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

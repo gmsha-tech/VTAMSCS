@@ -10,14 +10,11 @@
                 android:icon="@drawable/bevigil_logo"
                 android:title="@string/bevigil"
                 android:checkable="true"/>
-
-        </menu>
-    </item>
-
-    <item
-        android:id="@+id/labels_item"
-        android:title="@string/about">
-        <menu>
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/setttings_ic"
+                android:title="@string/settings"
+                android:checkable="true"/>
             <item
                 android:id="@+id/about"
                 android:icon="@drawable/info"
