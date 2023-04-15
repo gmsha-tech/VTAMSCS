@@ -36,11 +36,11 @@
     <string name="themestat">Select a Theme Color</string>
     <string name="translation">Translations</string>
     <string name="transstat">Help me in translating. Your name will be featured in this app.</string>
-    <string name="apksaved">Extracted Apk Saved.</string>
+    <string name="apksaved">Apk Saved.</string>
     <string name="extall">Extracted all the selected Apk\'s.</string>
-    <string name="unextall">Unable to Extract all the Apk\'s.</string>
-    <string name="unabletoext">Unable to Extract this Apk.</string>
-    <string name="extracted">Apk Extracted Successfully.</string>
+    <string name="unextall">Unable to Save all the Apk\'s.</string>
+    <string name="unabletoext">Unable to Save this Apk.</string>
+    <string name="extracted">Apk Saved Successfully.</string>
     <string name="open">Open</string>
     <string name="shareapk">Share</string>
     <string name="version">Version</string>

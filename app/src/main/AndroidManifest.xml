@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.toralabs.apkextractor">
+    package="com.mscs.vulnerabilitytestingapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".AboutActivity"
+            android:name="com.mscs.vulnerabilitytestingapp.AboutActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.BevigilActivity"
+            android:name="com.mscs.vulnerabilitytestingapp.activities.BevigilActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.mscs.vulnerabilitytestingapp.activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MoboSFActivity"
+            android:name="com.mscs.vulnerabilitytestingapp.activities.MoboSFActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ChoiceActivity"
+            android:name="com.mscs.vulnerabilitytestingapp.activities.ChoiceActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true">
             <intent-filter>
@@ -44,9 +45,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="com.mscs.vulnerabilitytestingapp.activities.SettingsActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false" />
     </application>
-
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+        </intent>
+    </queries>
 </manifest>
