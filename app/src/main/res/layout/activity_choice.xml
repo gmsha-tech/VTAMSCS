@@ -83,10 +83,27 @@
             android:layout_margin="10dp"
             android:text="@string/recent_scans" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recentScans"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+            android:id="@+id/coordinatorLayout"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recentApps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+            </RelativeLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

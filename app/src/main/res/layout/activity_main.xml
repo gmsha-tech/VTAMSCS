@@ -6,25 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/toolbarLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:background="?colorAccent"
+        android:id="@+id/toolbarLayout"
         android:padding="10dp">
 
-        <SearchView
-            android:id="@+id/searchView"
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_height="40dp"
+            android:id="@+id/backPress"
+            app:tint="@color/white"
+            android:onClick="backPressed"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:onClick="searchClicked" />
+            android:layout_centerInParent="true"
+            android:text="@string/installed_apps"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            >
+
+            <SearchView
+                android:id="@+id/searchView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:onClick="searchClicked" />
 
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+
 
     <TextView
         android:id="@+id/txt_loading"

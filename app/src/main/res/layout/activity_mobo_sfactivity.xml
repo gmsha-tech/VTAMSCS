@@ -4,11 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activities.MoboSFActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Uri"
-        android:id="@+id/uri_path_text"/>
+        android:background="?colorAccent"
+        android:id="@+id/toolbarLayout"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_height="40dp"
+            android:id="@+id/backPress"
+            app:tint="@color/white"
+            android:onClick="backPressed"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            />
+
+        <TextView
+            android:id="@+id/apptitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            >
+
+
+
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:id="@+id/textsLayout"
+        app:cardCornerRadius="15dp"
+        android:visibility="invisible"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="App Name: "
+                android:layout_margin="10dp"
+                android:textColor="@color/black_de"
+                android:textSize="15sp"
+                android:id="@+id/appnametextview"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="App Type: "
+                android:layout_margin="10dp"
+                android:textColor="@color/black_de"
+                android:textSize="15sp"
+                android:id="@+id/apptypetextview"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hash : "
+                android:layout_margin="10dp"
+                android:textColor="@color/black_de"
+                android:textSize="15sp"
+                android:id="@+id/hashTextView"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Upload Status: "
+                android:textColor="@color/black_de"
+                android:textSize="15sp"
+                android:id="@+id/statustextview"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Anaylizer Type: "
+                android:textColor="@color/black_de"
+                android:textSize="15sp"
+                android:id="@+id/analyzertextview"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/scanAppBtn"
+                android:layout_width="match_parent"
+                android:enabled="false"
+                android:layout_height="wrap_content"
+                android:text="Scan this App"
+                android:layout_margin="10dp"/>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

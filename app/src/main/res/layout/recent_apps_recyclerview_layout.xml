@@ -8,6 +8,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_margin="10dp"
+        android:foreground="?attr/selectableItemBackground"
         app:cardElevation="10dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp">
@@ -59,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     app:cornerRadius="15dp"
+                    android:drawableStart="@drawable/extract_ic"
                     android:layout_gravity="center"
                     android:text="@string/download_pdf_report"/>
             </LinearLayout>

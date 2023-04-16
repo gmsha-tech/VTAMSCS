@@ -49,7 +49,7 @@
     <string name="uid">UID</string>
     <string name="permission">Permissions</string>
     <string name="appsize">Size</string>
-    <string name="extracting">Extracting APK</string>
+    <string name="extracting">Exporting APK</string>
     <string name="loading">Loading Apps</string>
     <string name="noapps">No Such App Found</string>
     <string name="appinfo">App Info</string>
@@ -70,7 +70,7 @@
     <string name="share_msg">Extract Apk\'s with this lightning fast Apk Extractor.</string>
     <string name="vulnerabilites_testing_trough_mobo_sf">Vulnerabilites Testing using MoboSF</string>
     <string name="vulnerabilities_testing_through_bevigil">Vulnerabilities Testing using Bevigil</string>
-    <string name="save">Save</string>
+    <string name="save">Scan App</string>
     <string name="choose_app_from_installed_apps">Choose App from Installed Apps</string>
     <string name="choose_app_from_files">Choose App from Files</string>
     <string name="bevigil">Bevigil</string>
@@ -78,4 +78,8 @@
     <string name="navigation_drawer_close">Close</string>
     <string name="recent_scans">Recent Scans</string>
     <string name="download_pdf_report">Download PDF Report</string>
+    <string name="app_details">App Details</string>
+    <string name="installed_apps">Installed Apps</string>
+    <string name="exapand_all">Exapand All</string>
+    <string name="collapse_all">Collapse All</string>
 </resources>
