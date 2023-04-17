@@ -31,8 +31,8 @@
 
 
     </RelativeLayout>
-    <com.dandan.jsonhandleview.library.JsonViewLayout
-        android:id="@+id/jsonView"
+    <WebView
+        android:id="@+id/scoreView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
