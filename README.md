@@ -15,7 +15,8 @@ with many built-in features.
 Main features are :
 </h2>
 <br> • Can save installed applications and hit to scanning.
-<br> • this application utilized two tools for better results and ease. <a href ="https://github.com/MobSF/Mobile-Security-Framework-MobSF">MobSF</a> and <a href ="https://bevigil.com/>Bevigil</a>
+<br> • this application utilized two tools for better results and ease. <b>
+<a href ="https://github.com/MobSF/Mobile-Security-Framework-MobSF">MobSF</a></b> and <b> <a href ="https://bevigil.com/">Bevigil</a></b>
 <br> •Supports both Light and Dark theme.<br> • Works Lightning fast.<br> •
 Searching Apps on basis of name.<br> • 15 Themes Available.<br> 
 • Enhanced look of
