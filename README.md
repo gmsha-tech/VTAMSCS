@@ -24,8 +24,7 @@ required.</b><br><br>
 
 <b>I have uploaded this app on this given Link. Have a look at that
 one.
-<a href =" ">View
-Now</a></b><br><br>
+<a href =" ">View Now</a></b><br><br>
 
 Feel free to fork and contribute to this repository. And, if you used
 this project to create your own app, email me your app link. I will add
