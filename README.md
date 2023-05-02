@@ -14,13 +14,13 @@ with many built-in features.
 <h2>
 Main features are :
 </h2>
-<br> • Can save installed applications and hit to scanning.
+<br> • this app can save installed applications and hit to scanning.
 <br> • this application utilized two tools for better results and ease. <b>
 <a href ="https://github.com/MobSF/Mobile-Security-Framework-MobSF">MobSF</a></b> and <b> <a href ="https://bevigil.com/">Bevigil</a></b>
-<br> •Supports both Light and Dark theme.<br> • Works Lightning fast.<br> •
+<br> • Supports both Light and Dark theme.<br> • Works Lightning fast.<br> •
 Searching Apps on basis of name.<br> • 15 Themes Available.<br> 
 • Enhanced look of
-UI.<br> • Get detailed results in PDF after canning.<br> • Compatible with latest Android.<br> • <b> App shows scoreboard of scanned app with high, medium and low risks vulnerabilities.</b><br> • <b>No ROOT ACCESS
+UI.<br> • Get and download detailed results of app in PDF after scanning.<br> • Compatible with latest Android.<br> • <b> App shows scoreboard of scanned app with high, medium and low risks vulnerabilities.</b><br> • <b>No ROOT ACCESS
 required.</b><br><br>
 
 <b>I have uploaded this app on this given Link. Have a look at that
