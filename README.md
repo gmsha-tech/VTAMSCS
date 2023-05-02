@@ -29,7 +29,6 @@ Now</a></b><br><br>
 
 Feel free to fork and contribute to this repository. And, if you used
 this project to create your own app, email me your app link. I will add
-them to this readme.<br> This is a research project, Research paper is mentioned below.
-<br> <br>
-
+them to this readme.<br> <br>This is a research project, Research paper is mentioned below.
+<br> 
 Sayed Ghulam Murtaza. "Factual Inspection of Mobile Banking Apps working within Pakistan." 
