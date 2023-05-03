@@ -1,4 +1,4 @@
-Vulnerabilities Testing Android App
+Vulnerabilities Scanning Android App
 =========================
 
 <p align="center">
