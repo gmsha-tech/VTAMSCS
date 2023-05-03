@@ -3,7 +3,7 @@ Vulnerabilities Testing Android App
 
 <p align="center">
    
-<img src="https://raw.githubusercontent.com/gmsha-tech/VTAMSCS/main/VTAMSCSBANNER.jpg?token=GHSAT0AAAAAACBG7O2ETIZNWKUGOWE6KVCUZCRHS7Q" width="1024" height="576"/><br>
+<img src="https://github.com/gmsha-tech/VTAMSCS/raw/main/VTAMSCSBANNER.jpg" width="1024" height="576"/><br>
 <img src="https://img.shields.io/badge/platform-Android-brightgreen.svg" alt="Platform"/>
 <img src="https://img.shields.io/badge/API-23%2B-blue.svg" alt="API" /><br>
 </p>
