@@ -1,0 +1,56 @@
+<!-- res/layout/custom_dialog_layout.xml -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    android:layout_margin="5dp"
+    android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_close_24"
+        android:padding="10dp"
+        android:onClick="close"
+        android:id="@+id/closeImg"
+        android:layout_gravity="bottom"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor= "@android:color/black"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:text="Set Credentials"/>
+    <EditText
+        android:id="@+id/httpIdEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="HTTP ID"
+        android:text="http://"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/authKeyEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Auth Key"
+        android:inputType="text"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/submitButton"
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:text="Submit"/>
+
+</LinearLayout>
+</androidx.cardview.widget.CardView>
