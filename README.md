@@ -33,8 +33,7 @@ VTA offers the capability to test the app using selected non-installed apps. Thi
 Report can be shown in PDF and scoreboard in-app
 
 VTA generates a detailed report based on the analysis results obtained from MobSF [33]. The report can be viewed in PDF format, providing a comprehensive overview of the app's security assessment. Additionally, VTA includes a scoreboard within the app, which summarizes the app's security score and highlights key findings.
-.
-![image](https://github.com/gmsha-tech/VTAMSCS/assets/36192658/dfe30682-afa8-48f3-8ca0-5dd6647e8ea1)
+
 
 ⭐ Star this project on GitHub — it helps!<br> This app comes
 with many built-in features.
