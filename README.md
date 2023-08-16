@@ -16,15 +16,15 @@ VTA allows users to extract and convert their installed apps into the .APK forma
 
 Send to the tool MobSF via API call
 
-After converting an installed app into the .APK format, VTA provides an option to send the app to the MobSF (Mobile Security Framework) [33] tool using an API call. MobSF [33] is a powerful security testing tool that can analyze mobile apps for various security vulnerabilities.
+After converting an installed app into the .APK format, VTA provides an option to send the app to the MobSF (Mobile Security Framework) tool using an API call. MobSF is a powerful security testing tool that can analyze mobile apps for various security vulnerabilities.
 
 If it is successfully uploaded, analyze intent will be opened
 
-Once the app is successfully uploaded to MobSF [33], VTA opens the analyze intent, allowing the user to perform further analysis and security testing on the app. This step provides an opportunity to examine the app for potential security risks and vulnerabilities.
+Once the app is successfully uploaded to MobSF, VTA opens the analyze intent, allowing the user to perform further analysis and security testing on the app. This step provides an opportunity to examine the app for potential security risks and vulnerabilities.
 
 Server will analyze the app and update data into the application main screen
 
-After the app is uploaded and analyzed by MobSF [33], the server sends the analysis results back to VTA, which updates the data on the application's main screen. This feature provides users with an overview of the app's security status and any identified issues.
+After the app is uploaded and analyzed by MobSF, the server sends the analysis results back to VTA, which updates the data on the application's main screen. This feature provides users with an overview of the app's security status and any identified issues.
 
 App can be tested via selected non-installed apps
 
