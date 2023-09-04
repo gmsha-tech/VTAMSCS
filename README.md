@@ -8,6 +8,32 @@ Vulnerabilities Scanning Android App
 <img src="https://img.shields.io/badge/API-23%2B-blue.svg" alt="API" /><br>
 </p>
 <br>
+VTA is an Android application developed to facilitate app analysis, particularly for cases where third-party websites restrict downloading apps. It offers a range of functionalities for comprehensive app analysis and testing. Here is a detailed description of each functionality:
+
+Extract installed apps and convert into .APK format
+
+VTA allows users to extract and convert their installed apps into the .APK format. This feature enables users to create backup copies of their installed apps or share them with others.
+
+Send to the tool MobSF via API call
+
+After converting an installed app into the .APK format, VTA provides an option to send the app to the MobSF (Mobile Security Framework) tool using an API call. MobSF is a powerful security testing tool that can analyze mobile apps for various security vulnerabilities.
+
+If it is successfully uploaded, analyze intent will be opened
+
+Once the app is successfully uploaded to MobSF, VTA opens the analyze intent, allowing the user to perform further analysis and security testing on the app. This step provides an opportunity to examine the app for potential security risks and vulnerabilities.
+
+Server will analyze the app and update data into the application main screen
+
+After the app is uploaded and analyzed by MobSF, the server sends the analysis results back to VTA, which updates the data on the application's main screen. This feature provides users with an overview of the app's security status and any identified issues.
+
+App can be tested via selected non-installed apps
+
+VTA offers the capability to test the app using selected non-installed apps. This feature allows users to assess how the app interacts with other apps without actually installing them on their device. It helps identify any potential compatibility issues or unintended behaviors.
+
+Report can be shown in PDF and scoreboard in-app
+
+VTA generates a detailed report based on the analysis results obtained from MobSF [33]. The report can be viewed in PDF format, providing a comprehensive overview of the app's security assessment. Additionally, VTA includes a scoreboard within the app, which summarizes the app's security score and highlights key findings.
+
 
 ⭐ Star this project on GitHub — it helps!<br> This app comes
 with many built-in features.
